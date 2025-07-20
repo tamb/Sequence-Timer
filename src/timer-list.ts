@@ -22,9 +22,10 @@ export class TimerList extends LitElement {
     return html`
       <h2 class="mb-3">Timers</h2>
       <div class="timer-list">
-        ${this.timers.map((timer, idx) => html`
+        ${this.timers.map(
+          (timer, idx) => html`
           <div
-            class="timer-item d-flex align-items-center justify-content-between border rounded shadow-sm p-3 bg-white${this.activeTimerId === timer.id ? ' border-primary' : ''}"
+            class="timer-item d-flex align-items-center justify-content-between border rounded shadow-sm p-3 bg-white${this.activeTimerId === timer.id ? " border-primary" : ""}"
             style="cursor:default"
             data-timer-id="${timer.id}"
             data-index="${idx}"
@@ -49,7 +50,8 @@ export class TimerList extends LitElement {
               </button>
             </span>
           </div>
-        `)}
+        `,
+        )}
       </div>
     `;
   }
@@ -61,21 +63,27 @@ export class TimerList extends LitElement {
     const timersCopy = [...this.timers];
     const [moved] = timersCopy.splice(idx, 1);
     timersCopy.splice(newIdx, 0, moved);
-    this.dispatchEvent(new CustomEvent("timers-reordered", {
-      detail: { timers: timersCopy },
-      bubbles: true,
-      composed: true,
-    }));
+    this.dispatchEvent(
+      new CustomEvent("timers-reordered", {
+        detail: { timers: timersCopy },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   _editTimer(id: string) {
-    const timer = this.timers.find(t => t.id === id);
-    this.dispatchEvent(new CustomEvent("edit-timer", { detail: { id, timer }, bubbles: true, composed: true }));
+    const timer = this.timers.find((t) => t.id === id);
+    this.dispatchEvent(
+      new CustomEvent("edit-timer", { detail: { id, timer }, bubbles: true, composed: true }),
+    );
   }
 
   _deleteTimer(id: string) {
-    const timer = this.timers.find(t => t.id === id);
-    this.dispatchEvent(new CustomEvent("delete-timer", { detail: { id, timer }, bubbles: true, composed: true }));
+    const timer = this.timers.find((t) => t.id === id);
+    this.dispatchEvent(
+      new CustomEvent("delete-timer", { detail: { id, timer }, bubbles: true, composed: true }),
+    );
   }
 }
 

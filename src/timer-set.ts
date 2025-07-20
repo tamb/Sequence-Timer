@@ -27,7 +27,7 @@ export class TimerSet extends LitElement {
         { label: "Warmup Stretch", hours: 0, minutes: 1, seconds: 30, ms: 0 },
         { label: "Weights", hours: 0, minutes: 15, seconds: 0, ms: 0 },
         { label: "Abs", hours: 0, minutes: 5, seconds: 0, ms: 0 },
-        { label: "Cooldown stretch", hours: 0, minutes: 5, seconds: 0, ms: 0 }
+        { label: "Cooldown stretch", hours: 0, minutes: 5, seconds: 0, ms: 0 },
       ];
       await localforage.setItem("Example Workout", defaultTimers);
       this.selectedSet = "Example Workout";

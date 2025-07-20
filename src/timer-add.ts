@@ -42,19 +42,26 @@ export class TimerAdd extends LitElement {
 
   _populateFields() {
     if (!this.editTimer) return;
-    (this.renderRoot.querySelector("#timerLabel") as HTMLInputElement).value = this.editTimer.label || "";
-    (this.renderRoot.querySelector("#timerHours") as HTMLInputElement).value = this.editTimer.hours ?? "";
-    (this.renderRoot.querySelector("#timerMinutes") as HTMLInputElement).value = this.editTimer.minutes ?? "";
-    (this.renderRoot.querySelector("#timerSeconds") as HTMLInputElement).value = this.editTimer.seconds ?? "";
+    (this.renderRoot.querySelector("#timerLabel") as HTMLInputElement).value =
+      this.editTimer.label || "";
+    (this.renderRoot.querySelector("#timerHours") as HTMLInputElement).value =
+      this.editTimer.hours ?? "";
+    (this.renderRoot.querySelector("#timerMinutes") as HTMLInputElement).value =
+      this.editTimer.minutes ?? "";
+    (this.renderRoot.querySelector("#timerSeconds") as HTMLInputElement).value =
+      this.editTimer.seconds ?? "";
     (this.renderRoot.querySelector("#timerMs") as HTMLInputElement).value = this.editTimer.ms ?? "";
   }
 
   _addTimer(event: Event) {
     event.preventDefault();
     const label = (this.renderRoot.querySelector("#timerLabel") as HTMLInputElement).value;
-    const hours = parseInt((this.renderRoot.querySelector("#timerHours") as HTMLInputElement).value) || 0;
-    const minutes = parseInt((this.renderRoot.querySelector("#timerMinutes") as HTMLInputElement).value) || 0;
-    const seconds = parseInt((this.renderRoot.querySelector("#timerSeconds") as HTMLInputElement).value) || 0;
+    const hours =
+      parseInt((this.renderRoot.querySelector("#timerHours") as HTMLInputElement).value) || 0;
+    const minutes =
+      parseInt((this.renderRoot.querySelector("#timerMinutes") as HTMLInputElement).value) || 0;
+    const seconds =
+      parseInt((this.renderRoot.querySelector("#timerSeconds") as HTMLInputElement).value) || 0;
     const ms = parseInt((this.renderRoot.querySelector("#timerMs") as HTMLInputElement).value) || 0;
     // Generate a unique id for new timers
     const id = Math.random().toString(36).slice(2);
@@ -76,9 +83,12 @@ export class TimerAdd extends LitElement {
     event.preventDefault();
     if (!this.editTimer) return;
     const label = (this.renderRoot.querySelector("#timerLabel") as HTMLInputElement).value;
-    const hours = parseInt((this.renderRoot.querySelector("#timerHours") as HTMLInputElement).value) || 0;
-    const minutes = parseInt((this.renderRoot.querySelector("#timerMinutes") as HTMLInputElement).value) || 0;
-    const seconds = parseInt((this.renderRoot.querySelector("#timerSeconds") as HTMLInputElement).value) || 0;
+    const hours =
+      parseInt((this.renderRoot.querySelector("#timerHours") as HTMLInputElement).value) || 0;
+    const minutes =
+      parseInt((this.renderRoot.querySelector("#timerMinutes") as HTMLInputElement).value) || 0;
+    const seconds =
+      parseInt((this.renderRoot.querySelector("#timerSeconds") as HTMLInputElement).value) || 0;
     const ms = parseInt((this.renderRoot.querySelector("#timerMs") as HTMLInputElement).value) || 0;
     this.dispatchEvent(
       new CustomEvent("update-timer", {

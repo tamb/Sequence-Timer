@@ -63,8 +63,11 @@ export class TimerApp extends LitElement {
       return;
     }
     const timer = this.timers[this._timerIndex];
-    let totalMs = (timer.hours * 3600000) + (timer.minutes * 60000) + (timer.seconds * 1000) + (timer.ms || 0);
-    this._updateDisplay(`${timer.label}: ${timer.hours}h ${timer.minutes}m ${timer.seconds}s ${timer.ms}ms`);
+    let totalMs =
+      timer.hours * 3600000 + timer.minutes * 60000 + timer.seconds * 1000 + (timer.ms || 0);
+    this._updateDisplay(
+      `${timer.label}: ${timer.hours}h ${timer.minutes}m ${timer.seconds}s ${timer.ms}ms`,
+    );
     if (this._timerInterval) clearInterval(this._timerInterval);
     this._timerInterval = setInterval(() => {
       totalMs -= 1000;
@@ -137,7 +140,7 @@ export class TimerApp extends LitElement {
 
     this.addEventListener("update-timer", (e: any) => {
       const updated = e.detail;
-      this.timers = this.timers.map((t: any) => t.id === updated.id ? updated : t);
+      this.timers = this.timers.map((t: any) => (t.id === updated.id ? updated : t));
       this.editTimer = null;
       this._saveTimers();
     });
@@ -160,7 +163,6 @@ export class TimerApp extends LitElement {
 
   _timerIndex: number = 0;
   _timerInterval: any = null;
-
 
   render() {
     return html`

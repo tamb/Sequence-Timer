@@ -35,7 +35,7 @@ describe("TimerSet default set", () => {
   });
   it("initializes with Example Workout if no sets exist", async () => {
     const el = new TimerSet();
-    await new Promise(r => setTimeout(r, 100)); // wait for async
+    await new Promise((r) => setTimeout(r, 100)); // wait for async
     expect(el.sets.includes("Example Workout")).toBe(true);
     expect(el.selectedSet).toBe("Example Workout");
     expect(Array.isArray(el.timers)).toBe(true);
