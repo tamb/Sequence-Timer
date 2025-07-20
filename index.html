@@ -1,23 +1,217 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Workout Timer App</title>
-    <!-- Bootstrap 5 CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/lumen/bootstrap.min.css" rel="stylesheet">
+<!doctype html>
+<html lang="en" data-bs-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sequence Timer App</title>
+    <!-- Bootswatch Darkly Theme -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/darkly/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <!-- Bootstrap Icons -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
- 
-</head>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <!-- Sortable.js -->
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
+    <style>
+      .list-group-item.editing .timer-display {
+        display: none;
+      }
+      .list-group-item.editing .timer-edit {
+        display: block;
+      }
+      .timer-edit {
+        display: none;
+      }
+      #currentTimer {
+        font-size: 2rem;
+        font-weight: bold;
+      }
+      .list-group-item.active-timer {
+        background-color: var(--bs-primary);
+        border-color: var(--bs-primary);
+      }
+      @media (max-width: 991.98px) {
+        .sticky-mobile-header {
+          position: -webkit-sticky;
+          position: sticky;
+          top: 0;
+          background-color: var(--bs-body-bg);
+          padding: 1rem 0;
+          z-index: 1020;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container py-5">
+      <header class="text-center mb-5">
+        <h1 class="display-4">Sequence Timer</h1>
+        <p class="lead">Create a sequence of timers to help you stay on track.</p>
+      </header>
 
-<body>
-    <div class="container">
-        <timer-app></timer-app>
+      <div class="row g-5">
+        <div class="col-lg-8 order-lg-2">
+          <div class="text-center sticky-mobile-header">
+            <div id="currentTimer" class="mb-4">No timer running.</div>
+            <div class="btn-group mb-4" role="group">
+              <button
+                id="startButton"
+                class="btn btn-lg btn-success mx-1"
+                onclick="startTimers()"
+                aria-label="Start"
+              >
+                <i class="bi bi-play-fill"></i>
+              </button>
+              <button
+                id="pauseResumeButton"
+                class="btn btn-lg btn-warning mx-1"
+                style="display: none"
+                onclick="pauseResumeTimer()"
+                aria-label="Pause"
+              >
+                <i class="bi bi-pause-fill"></i>
+              </button>
+              <button
+                id="stopButton"
+                class="btn btn-lg btn-danger mx-1"
+                style="display: none"
+                onclick="stopTimers()"
+                aria-label="Stop"
+              >
+                <i class="bi bi-stop-fill"></i>
+              </button>
+              <button
+                id="resetButton"
+                class="btn btn-lg btn-secondary mx-1"
+                onclick="resetTimers()"
+                aria-label="Reset"
+              >
+                <i class="bi bi-arrow-counterclockwise"></i>
+              </button>
+              <button
+                class="btn btn-lg btn-info mx-1"
+                onclick="testAlarm()"
+                aria-label="Test Alarm"
+              >
+                <i class="bi bi-bell-fill"></i>
+              </button>
+            </div>
+          </div>
+
+          <h2 class="h4 mb-3">Timers</h2>
+          <ul id="timerList" class="list-group"></ul>
+        </div>
+
+        <div class="col-lg-4 order-lg-1">
+          <div class="card shadow-sm">
+            <div class="card-body position-relative">
+              <i
+                class="bi bi-info-circle-fill position-absolute top-0 end-0 mt-3 me-3"
+                data-bs-toggle="tooltip"
+                title="Use this section to add a new timer to the sequence."
+              ></i>
+              <h2 class="h4 mb-3">Add Timer</h2>
+              <div class="input-group mb-2">
+                <input
+                  type="text"
+                  id="timerLabel"
+                  class="form-control"
+                  placeholder="Label"
+                />
+              </div>
+              <div class="input-group mb-3">
+                <input
+                  type="number"
+                  id="timerHours"
+                  class="form-control"
+                  placeholder="HH"
+                  min="0"
+                />
+                <input
+                  type="number"
+                  id="timerMinutes"
+                  class="form-control"
+                  placeholder="MM"
+                  min="0"
+                  max="59"
+                />
+                <input
+                  type="number"
+                  id="timerSeconds"
+                  class="form-control"
+                  placeholder="SS"
+                  min="0"
+                  max="59"
+                />
+                <input
+                  type="number"
+                  id="timerMs"
+                  class="form-control"
+                  placeholder="MS"
+                  min="0"
+                  max="999"
+                />
+              </div>
+              <button
+                class="btn btn-primary w-100"
+                onclick="addTimer()"
+                aria-label="Add Timer"
+              >
+                <i class="bi bi-plus-circle-fill"></i> Add Timer
+              </button>
+            </div>
+          </div>
+
+          <div class="card shadow-sm mt-4">
+            <div class="card-body position-relative">
+              <i
+                class="bi bi-info-circle-fill position-absolute top-0 end-0 mt-3 me-3"
+                data-bs-toggle="tooltip"
+                title="Use this section to save the current timer sequence as a set, or load a previously saved set."
+              ></i>
+              <h2 class="h4 mb-3">Timer Sets</h2>
+              <div class="input-group mb-2">
+                <input
+                  type="text"
+                  id="timerSetName"
+                  class="form-control"
+                  placeholder="Timer Set Name"
+                />
+                <button
+                  class="btn btn-success"
+                  onclick="saveTimerSet()"
+                  aria-label="Save Timer Set"
+                >
+                  <i class="bi bi-save-fill"></i>
+                </button>
+              </div>
+              <div class="input-group">
+                <select id="savedSets" class="form-select"></select>
+                <button
+                  class="btn btn-info"
+                  onclick="loadTimerSet()"
+                  aria-label="Load Timer Set"
+                >
+                  <i class="bi bi-folder2-open"></i>
+                </button>
+                <button
+                  class="btn btn-danger"
+                  onclick="clearSavedSets()"
+                  aria-label="Clear Saved Sets"
+                >
+                  <i class="bi bi-trash-fill"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
-
-    <script src="src/timer-app.ts" type="module"></script>
-</body>
-
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="src/index.ts" type="module"></script>
+  </body>
 </html>
