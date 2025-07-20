@@ -1,0 +1,32 @@
+{
+  "name": "multitimers",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "format": "bunx biome format . --write",
+    "lint": "bunx biome lint ."
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.1.2",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@types/web": "^0.0.250",
+    "@vitest/ui": "^3.2.4",
+    "jsdom": "^26.1.0",
+    "typescript": "~5.8.3",
+    "vite": "^7.0.4",
+    "vitest": "^3.2.4"
+  },
+  "dependencies": {
+    "@types/sortablejs": "^1.15.8",
+    "bootstrap": "^5.3.7",
+    "bootswatch": "^5.3.7",
+    "lit": "^3.3.1",
+    "localforage": "^1.10.0",
+    "sortablejs": "^1.15.6"
+  }
+}
