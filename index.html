@@ -4,18 +4,6 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Sequence Timer App</title>
-    <!-- Bootswatch Darkly Theme -->
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.0/dist/darkly/bootstrap.min.css"
-      rel="stylesheet"
-    />
-    <!-- Bootstrap Icons -->
-    <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
-    />
-    <!-- Sortable.js -->
-    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
     <style>
       .list-group-item.editing .timer-display {
         display: none;
@@ -49,52 +37,53 @@
   <body>
     <div class="container py-5">
       <header class="text-center mb-5">
-        <h1 class="display-4">Sequence Timer</h1>
+        <h1 class="display-4" data-testid="app-title">Sequence Timer</h1>
         <p class="lead">Create a sequence of timers to help you stay on track.</p>
       </header>
 
       <div class="row g-5">
         <div class="col-lg-8 order-lg-2">
           <div class="text-center sticky-mobile-header">
-            <div id="currentTimer" class="mb-4">No timer running.</div>
+            <div data-ref="current-timer-display" data-testid="timer-display" class="mb-4">No timer running.</div>
             <div class="btn-group mb-4" role="group">
               <button
-                id="startButton"
+                data-ref="start-button"
+                data-testid="start-button"
                 class="btn btn-lg btn-success mx-1"
-                onclick="startTimers()"
                 aria-label="Start"
               >
                 <i class="bi bi-play-fill"></i>
               </button>
               <button
-                id="pauseResumeButton"
+                data-ref="pause-resume-button"
+                data-testid="pause-button"
                 class="btn btn-lg btn-warning mx-1"
                 style="display: none"
-                onclick="pauseResumeTimer()"
                 aria-label="Pause"
               >
                 <i class="bi bi-pause-fill"></i>
               </button>
               <button
-                id="stopButton"
+                data-ref="stop-button"
+                data-testid="stop-button"
                 class="btn btn-lg btn-danger mx-1"
                 style="display: none"
-                onclick="stopTimers()"
                 aria-label="Stop"
               >
                 <i class="bi bi-stop-fill"></i>
               </button>
               <button
-                id="resetButton"
+                data-ref="reset-button"
+                data-testid="reset-button"
                 class="btn btn-lg btn-secondary mx-1"
-                onclick="resetTimers()"
                 aria-label="Reset"
               >
                 <i class="bi bi-arrow-counterclockwise"></i>
               </button>
               <button
+                data-ref="test-alarm-button"
+                data-testid="test-alarm-button"
                 class="btn btn-lg btn-info mx-1"
-                onclick="testAlarm()"
                 aria-label="Test Alarm"
               >
                 <i class="bi bi-bell-fill"></i>
@@ -103,7 +92,7 @@
           </div>
 
           <h2 class="h4 mb-3">Timers</h2>
-          <ul id="timerList" class="list-group"></ul>
+          <ul data-ref="timer-list" data-testid="timer-list" class="list-group"></ul>
         </div>
 
         <div class="col-lg-4 order-lg-1">
@@ -118,7 +107,7 @@
               <div class="input-group mb-2">
                 <input
                   type="text"
-                  id="timerLabel"
+                  data-ref="timer-label-input"
                   class="form-control"
                   placeholder="Label"
                 />
@@ -126,14 +115,14 @@
               <div class="input-group mb-3">
                 <input
                   type="number"
-                  id="timerHours"
+                  data-ref="timer-hours-input"
                   class="form-control"
                   placeholder="HH"
                   min="0"
                 />
                 <input
                   type="number"
-                  id="timerMinutes"
+                  data-ref="timer-minutes-input"
                   class="form-control"
                   placeholder="MM"
                   min="0"
@@ -141,7 +130,7 @@
                 />
                 <input
                   type="number"
-                  id="timerSeconds"
+                  data-ref="timer-seconds-input"
                   class="form-control"
                   placeholder="SS"
                   min="0"
@@ -149,7 +138,7 @@
                 />
                 <input
                   type="number"
-                  id="timerMs"
+                  data-ref="timer-ms-input"
                   class="form-control"
                   placeholder="MS"
                   min="0"
@@ -157,8 +146,8 @@
                 />
               </div>
               <button
+                data-ref="add-timer-button"
                 class="btn btn-primary w-100"
-                onclick="addTimer()"
                 aria-label="Add Timer"
               >
                 <i class="bi bi-plus-circle-fill"></i> Add Timer
@@ -171,36 +160,37 @@
               <i
                 class="bi bi-info-circle-fill position-absolute top-0 end-0 mt-3 me-3"
                 data-bs-toggle="tooltip"
-                title="Use this section to save the current timer sequence as a set, or load a previously saved set."
+                title="Use this section to save the current timer sequence as a set, or load a previously
+ saved set."
               ></i>
               <h2 class="h4 mb-3">Timer Sets</h2>
               <div class="input-group mb-2">
                 <input
                   type="text"
-                  id="timerSetName"
+                  data-ref="timer-set-name-input"
                   class="form-control"
                   placeholder="Timer Set Name"
                 />
                 <button
+                  data-ref="save-timer-set-button"
                   class="btn btn-success"
-                  onclick="saveTimerSet()"
                   aria-label="Save Timer Set"
                 >
                   <i class="bi bi-save-fill"></i>
                 </button>
               </div>
               <div class="input-group">
-                <select id="savedSets" class="form-select"></select>
+                <select data-ref="saved-sets-select" class="form-select"></select>
                 <button
+                  data-ref="load-timer-set-button"
                   class="btn btn-info"
-                  onclick="loadTimerSet()"
                   aria-label="Load Timer Set"
                 >
                   <i class="bi bi-folder2-open"></i>
                 </button>
                 <button
+                  data-ref="clear-saved-sets-button"
                   class="btn btn-danger"
-                  onclick="clearSavedSets()"
                   aria-label="Clear Saved Sets"
                 >
                   <i class="bi bi-trash-fill"></i>
@@ -208,10 +198,74 @@
               </div>
             </div>
           </div>
+
+          <div class="card shadow-sm mt-4">
+            <div class="card-body">
+              <h2 class="h4 mb-3">Settings</h2>
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="form-check form-switch mb-2">
+                    <input
+                      data-ref="vibration-toggle"
+                      class="form-check-input"
+                      type="checkbox"
+                      id="vibrationToggle"
+                    />
+                    <label class="form-check-label" for="vibrationToggle">Vibration</label>
+                  </div>
+                  <div class="form-check form-switch">
+                    <input
+                      data-ref="haptics-toggle"
+                      class="form-check-input"
+                      type="checkbox"
+                      id="hapticsToggle"
+                      data-bs-toggle="tooltip"
+                      data-bs-placement="top"
+                      title="Enable haptic feedback for UI interactions."
+                    />
+                    <label class="form-check-label" for="hapticsToggle">Haptic Feedback</label>
+                  </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label for="alarmVolumeRange" class="form-label">Alarm Volume</label>
+                  <input
+                    data-ref="alarm-volume-range"
+                    type="range"
+                    class="form-range"
+                    id="alarmVolumeRange"
+                    min="0"
+                    max="10"
+                    step="1"
+                  />
+                </div>
+              </div>
+              <div class="form-check form-switch mb-2">
+                <input
+                  data-ref="interrupt-playback-toggle"
+                  class="form-check-input"
+                  type="checkbox"
+                  id="interruptPlaybackToggle"
+                />
+                <label class="form-check-label" for="interruptPlaybackToggle"
+                  >Interrupt Playback</label
+                >
+              </div>
+              <div class="form-check form-switch mb-3">
+                <input
+                  data-ref="alarm-notifications-toggle"
+                  class="form-check-input"
+                  type="checkbox"
+                  id="alarmNotificationsToggle"
+                />
+                <label class="form-check-label" for="alarmNotificationsToggle"
+                  >Alarm Notifications</label
+                >
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="src/index.ts" type="module"></script>
   </body>
 </html>

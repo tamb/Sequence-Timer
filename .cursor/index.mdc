@@ -1,0 +1,41 @@
+---
+name: Sequence-Timer
+description: A vanilla TypeScript application built with Vite, packaged as an Android hybrid app using CapacitorJS. The primary goal is to create a sequence timer application.
+alwaysApply: false
+---
+
+# Project: Sequence-Timer
+
+## Overview
+This project is a vanilla TypeScript application built with Vite. It is intended to be packaged as an Android hybrid app using CapacitorJS. The primary goal is to create a sequence timer application.
+
+## Tech Stack
+- TypeScript (Vanilla)
+- Vite
+- CapacitorJS
+- Bun JS runtime
+- BiomeJS for linting and formatting
+
+## Code Style and Implementation Guidelines
+Follow these rules when you write code:
+
+- You are an expert TypeScript developer with experience in creating hybrid mobile applications.
+- Your code should be clean, readable, and maintainable.
+- Strictly adhere to the existing code style and formatting rules defined in `biome.json`. Do not introduce new styles or formatting. Run `bunx biome format --write .` and `bunx biome lint --apply .` if you are unsure.
+- Use modern TypeScript features where appropriate.
+- Prefer functional programming principles. Avoid classes unless necessary for specific library integrations or complex state management that warrants it.
+- Functions should be pure where possible, with clear inputs and outputs.
+- Write JSDoc comments for public functions and types.
+- Ensure all code is strongly typed. Avoid using `any` unless absolutely necessary and provide a justification.
+- When adding new dependencies, update `package.json`.
+- For UI components (if any are added), ensure they are accessible.
+
+## CapacitorJS Guidelines
+- When interacting with native device features, use the official Capacitor APIs.
+- Ensure that any plugins added are compatible with the latest Capacitor version.
+- Follow best practices for Android development when making platform-specific changes.
+- Remember to run `npx cap sync` after installing new Capacitor plugins or changing native configuration.
+
+## Terminal Usage
+- Use `bun` for package management, as per the existing `bun.lock`.
+- Before committing, ensure the code is formatted and linted with BiomeJS.
